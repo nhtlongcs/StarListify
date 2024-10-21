@@ -1,2 +1,5 @@
 pandas
 google-generativeai
+transformers
+sentence-transformers
+xformers
