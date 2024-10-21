@@ -3,11 +3,18 @@ import re
 from utils import find_latest_file
 import pandas as pd
 import os 
+import dotenv
+dotenv.load_dotenv()
+
 username = 'nhtlongcs'
 filename = find_latest_file(username)
 df = pd.read_csv(filename)
 topics = df['topics'].dropna().str.split(',').explode().str.strip().tolist()
-preference = "I prefer topic bit more detailed, diverse, like career, research, softskills, personal finance, productivity etc. Please create 2 topic named 'life-long learning' and 'life-logging' caused im researching on it."
+preference = """
+I prefer topic bit more detailed, diverse, like career, research, softskills, personal finance, productivity etc. 
+Please create 2 topic named 'life-long learning' and 'life-logging' caused im researching on it.
+Game and robotics are minor topics, exclude them.
+"""
 
 def gemini_response(prompt):
     import google.generativeai as genai
@@ -38,6 +45,7 @@ Then, for each topic, provide your final prediction in the format:
 Topic id: [id]
 Topic title: [title]
 Topic description: [details]
+Highlighted keywords: [name 3-5 keywords]
 Reasoning: [A brief summary of your reasoning]
 [end]
 ----------------------------------------
@@ -46,7 +54,7 @@ response = gemini_response(prompt.format(topics=topics, preferences=preference))
 
 # Define regex pattern to parse the log into structured data
 pattern = re.compile(
-    r"\[start\]\s*Topic id: (\d+)\s*Topic title: (.*?)\s*Topic description: (.*?)\s*Reasoning: (.*?)\s*\[end\]",
+    r"\[start\]\s*Topic id: (\d+)\s*Topic title: (.*?)\s*Topic description: (.*?)\s*Highlighted keywords: (.*?)\s*Reasoning: (.*?)\s*\[end\]",
     re.DOTALL
 )
 
@@ -58,8 +66,9 @@ parsed_data = [
     {
         "id": int(match[0]),
         "title": match[1].strip(),
-        "desc": match[2].strip(),
-        "reasoning": match[3].strip()
+        "description": match[2].strip(),
+        "keywords": match[3].strip(),
+        "reasoning": match[4].strip()
     }
     for match in matches
 ]
