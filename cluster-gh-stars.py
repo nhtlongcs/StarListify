@@ -13,6 +13,11 @@ topics = df['topics'].dropna().str.split(',').explode().str.strip().tolist()
 preference = """
 I prefer topic bit more detailed, diverse, like career, research, softskills, personal finance, productivity etc. 
 Please create 2 topic named 'life-long learning' and 'life-logging' caused im researching on it.
+life-logging should include ego-centric data, knowledge graph, temporal graph, user intent understanding, nlp extraction/ named entity recognition related topics.
+I am a competitive programmer, so include topics like algorithms, data structures.
+Include a interview preparation topic, include topics like system design, leetcode, behavioral questions.
+
+Try to create detailed topic, instead of general topic like 'Computer Vision', try to create 'Motion Object Tracking'
 Game and robotics are minor topics, exclude them.
 """
 
