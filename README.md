@@ -4,6 +4,19 @@
 
 **StarListify** is a Python package designed to help users classify their GitHub stars history into organized category lists. This tool fetches starred repositories, extracts valuable information including README content, and categorizes them based on user-defined criteria or hashtags derived from the README files.
 
+> I often find myself overwhelmed with organizing everything, especially my GitHub stars. As someone working in the field of information retrieval, I strive to dump my knowledge base into a second brain, and my GitHub stars play a crucial role in that process.
+To make my life easier, I created a package to categorize my starred repositories based on their usage. Now, all my starred repos are organized exactly as I want them, making it effortless to find what I need.
+
+Example use: 
+
+```bash
+python main.py -u nhtlongcs --preference "I prefer my topic bit detailed, diverse, \
+like career, research, softskills, personal finance, productivity etc. \
+I am a competitive programmer, so include topics like algorithms, data structures. \
+Game and robotics are minor topics, exclude them. "
+```
+
+
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
