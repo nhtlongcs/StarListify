@@ -48,6 +48,10 @@ python fetch-gh-stars.py <username>
 python cluster-gh-stars.py <username>
 python categorize-gh-stars.py <username>
 ```
+## FAQ 
+
+How to get your gh_token?
+> ...
 
 ## Contributing
 
@@ -56,7 +60,3 @@ Contributions are welcome! If you have suggestions for improvements or would lik
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize the sections, add more specific examples, or include additional information about your project as needed!
