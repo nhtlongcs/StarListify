@@ -1,62 +1,101 @@
+## StarListify
 
+**StarListify** is a Python package that transforms your GitHub stars into an organized, categorized resource, making it easy to browse and access your starred repositories. By fetching starred repositories and extracting key information—like the README content—it sorts them into lists based on custom user preferences or README-inferred topics.
 
-# StarListify
+![example.png](./assets/example.jpeg)
 
-**StarListify** is a Python package designed to help users classify their GitHub stars history into organized category lists. This tool fetches starred repositories, extracts valuable information including README content, and categorizes them based on user-defined criteria or hashtags derived from the README files.
+> Organizing resources, especially GitHub stars, can become overwhelming. As someone in the field of information retrieval, I've built **StarListify** to help manage my knowledge base, treating my GitHub stars as an integral part of my “second brain.” With this tool, I can categorize starred repositories based on how I use them, creating a streamlined structure that’s efficient and tailored to my needs.
 
-> I often find myself overwhelmed with organizing everything, especially my GitHub stars. As someone working in the field of information retrieval, I strive to dump my knowledge base into a second brain, and my GitHub stars play a crucial role in that process.
-To make my life easier, I created a package to categorize my starred repositories based on their usage. Now, all my starred repos are organized exactly as I want them, making it effortless to find what I need.
-
-Example use: 
+### Example Usage
 
 ```bash
-python main.py -u nhtlongcs --preference "I prefer my topic bit detailed, diverse, \
-like career, research, softskills, personal finance, productivity etc. \
-I am a competitive programmer, so include topics like algorithms, data structures. \
-Game and robotics are minor topics, exclude them. "
+starlistify generate --preferences "I prefer my topics to be detailed and diverse, \
+including areas like career, research, soft skills, personal finance, productivity, etc. \
+As a competitive programmer, I also need topics on algorithms and data structures. \
+Minor topics, like game development and robotics, can be excluded."
 ```
 
 
-## Table of Contents
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Functionality](#functionality)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
+---
 
-## How does it work?
-- Fetch starred repositories from a specified GitHub user account.
-- Generate a list of categories based on the starred repositories and user-defined criteria.
-- For each repository README, retrieve the most relevant topic using a embeddings-based model.
+## How It Works
+
+1. **Fetch Starred Repositories:** Retrieve starred repositories for a specified GitHub user account.
+2. **Generate Categories:** Create lists based on starred repositories and user-defined criteria.
+3. **Retrieve Relevant Topics:** Use an embeddings-based model to extract the most relevant topics from each repository's README.
+4. **Update GitHub Lists:** Apply the categorized lists directly to your GitHub account.
+
+---
 
 ## Installation
 
-To install `StarListify`, you can clone the repository and install the required dependencies:
+If you're new to Python or package management, it's recommended to use Conda to set up a virtual environment and install dependencies:
 
 ```bash
-git clone https://github.com/nhtlongcs/starListify.git
-cd starListify
+conda create -n starlistify python=3.10
+conda activate starlistify
 pip install -r requirements.txt
+pip install -e .
 ```
 
-## Usage (wip)
+---
 
-```bash
-python fetch-gh-stars.py <username>
-python cluster-gh-stars.py <username>
-python categorize-gh-stars.py <username>
+## Usage 
+
+To use **StarListify**, you’ll need a GitHub account and a few access keys:
+
+- **GitHub Token**: [Create a token](https://graphite.dev/guides/github-personal-access-token) following the official guide.
+- **GitHub User ID**: Use your GitHub username.
+- **GitHub Stars Cookie**: Follow [these instructions](https://github.com/haile01/github-starred-list?tab=readme-ov-file#-faq) to get the cookie for starred repo updates.
+- **GenAI Key**: Access an LLM model by following [these steps](https://ai.google.dev/gemini-api/docs/api-key) (currently free).
+
+### Set up environment variables:
+
+```env
+GH_TOKEN=
+GH_USER_ID=
+GH_COOKIE=
+GENAI_KEY=
 ```
-## FAQ 
 
-How to get your gh_token?
-> ...
+---
+
+### Running StarListify
+
+Follow these four main steps:
+
+1. **Fetch**:
+   ```bash
+   starlistify fetch 
+   ```
+   - Fetches starred repositories for the specified GitHub account and saves them to a file named `<username>_starred_repos-<current-date>.csv` for use in subsequent steps.
+
+2. **Generate**:
+   ```bash
+   starlistify generate --preferences "Your preferences here" --use-reference
+   ```
+   - Generates a categorized list based on user-defined preferences, saved as `topics_<username>.csv`. You can refine this list manually to ensure it aligns with your needs.
+
+3. **Categorize**:
+   ```bash
+   starlistify categorize --model "Embeddings-based model"
+   ```
+   - Uses an embeddings-based model to assign relevant topics from each repository's README, saving results as `star_listified_<username>.csv`. The model can be local or pre-trained. Refer to the [mteb leaderboard](https://huggingface.co/spaces/mteb/leaderboard) for model options.
+
+4. **Update**:
+   ```bash
+   starlistify update --reset
+   ```
+   - Updates your GitHub account with the categorized lists. Since GitHub allows only 32 lists, use the `--reset` flag to clear existing lists as needed.
+
+---
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions for improvements or would like to contribute to the project, please fork the repository and submit a pull request. Ensure to follow coding conventions and include tests for new features.
+Contributions are encouraged! If you have suggestions or improvements, please fork the repository, adhere to coding conventions, and submit a pull request. Including tests for new features is appreciated.
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
