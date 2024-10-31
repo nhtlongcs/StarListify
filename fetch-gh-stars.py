@@ -129,6 +129,7 @@ def save_readmes_to_csv(user_id):
     print(f"Saved README contents to {filename} with {new_repos_count} new repositories.")
 
 if __name__ == "__main__":
-    user_id = input("Enter the GitHub user ID: ")
+    user_id = os.getenv("GITHUB_USER_ID", None)
+    assert user_id, "GITHUB_USER_ID environment variable is required to fetch starred repositories."
     assert GITHUB_TOKEN, "GITHUB_TOKEN environment variable is required to fetch starred repositories."
     save_readmes_to_csv(user_id)
