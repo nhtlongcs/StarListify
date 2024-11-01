@@ -4,7 +4,7 @@ import rich
 import dotenv
 import argparse
 import pandas as pd
-from utils import find_latest_file
+from .utils import find_latest_file
 
 dotenv.load_dotenv()
 
@@ -74,17 +74,14 @@ def save_topics_to_csv(parsed_data, username):
     df_topics = pd.DataFrame(parsed_data)
     df_topics.to_csv(f'topics_{username}.csv', index=False)
 
-def main():
-    parser = argparse.ArgumentParser(description="Cluster GitHub stars into topics.")
-    parser.add_argument('--preferences', type=str, help='Your preferences for topics generation.')
-    parser.add_argument('--use-reference', action='store_true', help='Use reference lists from GitHub.')
-    args = parser.parse_args()
+def main(preferences=None, use_reference=False):
+    
 
     username = get_github_username()
     assert username is not None, 'Please set the GH_USER_ID environment variable.'
     filename = get_latest_file(username)
     topics = load_topics_from_file(filename)
-    preference = load_user_preferences(args.preferences, args.use_reference)
+    preference = load_user_preferences(preferences, use_reference)
 
     prompt = f"""\n\nGiven the keywords {topics}, cluster them into topics with high-level meaning.
     User Preference: {preference}.
@@ -106,4 +103,8 @@ def main():
     save_topics_to_csv(parsed_data, username)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Cluster GitHub stars into topics.")
+    parser.add_argument('--preferences', type=str, help='Your preferences for topics generation.')
+    parser.add_argument('--use-reference', action='store_true', help='Use reference lists from GitHub.')
+    args = parser.parse_args()
+    main(args.preferences, args.use_reference)

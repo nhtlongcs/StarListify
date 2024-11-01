@@ -3,11 +3,11 @@ import pandas as pd
 import os
 from datetime import datetime
 import dotenv
-from utils import find_latest_file
+from .utils import find_latest_file
 
 dotenv.load_dotenv()
 
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", None)
+GITHUB_TOKEN = os.getenv("GH_TOKEN", None)
 GITHUB_API_URL = "https://api.github.com"
 
 def get_starred_repos(user_id, existing_repos):
@@ -128,8 +128,11 @@ def save_readmes_to_csv(user_id):
     combined_df.to_csv(filename, index=False)
     print(f"Saved README contents to {filename} with {new_repos_count} new repositories.")
 
-if __name__ == "__main__":
-    user_id = os.getenv("GITHUB_USER_ID", None)
-    assert user_id, "GITHUB_USER_ID environment variable is required to fetch starred repositories."
-    assert GITHUB_TOKEN, "GITHUB_TOKEN environment variable is required to fetch starred repositories."
+def main():
+    user_id = os.getenv("GH_USER_ID", None)
+    assert user_id, "GH_USER_ID environment variable is required to fetch starred repositories."
+    assert GITHUB_TOKEN, "GH_TOKEN environment variable is required to fetch starred repositories."
     save_readmes_to_csv(user_id)
+
+if __name__ == "__main__":
+    main()

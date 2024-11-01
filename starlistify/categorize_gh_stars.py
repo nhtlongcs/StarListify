@@ -3,7 +3,7 @@ import dotenv
 import argparse
 import numpy as np
 import pandas as pd
-from utils import find_latest_file
+from .utils import find_latest_file
 from sentence_transformers import SentenceTransformer
 
 dotenv.load_dotenv()
@@ -38,7 +38,8 @@ def save_to_csv(df, username):
     selected_columns = ['repo_owner', 'repo_name', 'listified', 'topics']
     df[selected_columns].to_csv(f'star_listified_{username}.csv', index=False)
 
-def main(username, model_name):
+def main(model_name):
+    username = os.getenv('GH_USER_ID', None)
     df, topic_df = load_data(username)
     add_all_text_columns(df, topic_df)
     
@@ -53,8 +54,6 @@ def main(username, model_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Categorize GitHub stars.')
-    parser.add_argument('--username', type=str, help='GitHub username',default=os.getenv('GH_USER_ID', None))
     parser.add_argument('--model', type=str, default='dunzhang/stella_en_400M_v5', help='SentenceTransformer model name')
     args = parser.parse_args()
-    assert args.username is not None, 'Please set the GH_USER_ID environment variable or provide a username using --username'
-    main(args.username, args.model)
+    main(args.model)
