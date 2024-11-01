@@ -1,4 +1,4 @@
-## StarListify
+# StarListify
 
 **StarListify** is a Python package that transforms your GitHub stars into an organized, categorized resource, making it easy to browse and access your starred repositories. By fetching starred repositories and extracting key information—like the README content—it sorts them into lists based on custom user preferences or README-inferred topics.
 
