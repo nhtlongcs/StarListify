@@ -74,7 +74,7 @@ Follow these four main steps:
    ```bash
    starlistify generate --preferences "Your preferences here" --use-reference
    ```
-   - Generates a categorized list based on user-defined preferences, saved as `topics_<username>.csv`. You can refine this list manually to ensure it aligns with your needs. The `--use-reference` flag uses your current created list as a reference for the next categorization step.
+   - Generates a categorized list based on user-defined preferences, saved as `topics_<username>.csv`. You can refine this list manually to ensure it aligns with your needs. The `--use-reference` flag uses your created list as a reference for generate new lists.
 
 3. **Categorize**:
    ```bash
