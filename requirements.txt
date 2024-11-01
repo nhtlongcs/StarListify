@@ -3,4 +3,5 @@ google-generativeai
 transformers
 sentence-transformers
 xformers
+rich
 git+https://github.com/haile01/github-starred-list.git
