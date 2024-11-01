@@ -1,3 +1,5 @@
 *.csv
 .env
 *__pycache__/
+.projectile
+*.egg-info
